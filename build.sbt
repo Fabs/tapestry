@@ -6,6 +6,13 @@ scalaVersion := "2.13.8"
 
 idePackagePrefix := Some("com.tapestry")
 
+// Test
+libraryDependencies += "org.scalactic" %% "scalactic" % "3.2.11"
+libraryDependencies += "org.scalatest" %% "scalatest" % "3.2.11" % "test"
+libraryDependencies += "org.scalamock" %% "scalamock" % "5.1.0" % Test
+libraryDependencies += "org.mockito" % "mockito-scala_2.13" % "1.17.5"
+libraryDependencies += "org.mockito" % "mockito-scala-scalatest_2.13" % "1.17.5"
+
 //Tapestry core
 libraryDependencies += "org.reflections" % "reflections" % "0.10.2"
 libraryDependencies += "org.scala-lang" % "scala-reflect" % "2.13.8"
@@ -35,13 +42,14 @@ libraryDependencies += "org.nd4j" % "nd4j-native" % "1.0.0-M1"
 libraryDependencies += "org.nd4j" % "nd4j-native-platform" % "1.0.0-M1"
 
 //Iot is T
-libraryDependencies += "org.scalactic" %% "scalactic" % "3.2.11"
-libraryDependencies += "org.scalatest" %% "scalatest" % "3.2.11" % "test"
 libraryDependencies += "dev.profunktor" %% "redis4cats-effects" % "1.1.1"
 libraryDependencies += "dev.profunktor" %% "redis4cats-streams" % "1.1.1"
+libraryDependencies += "io.github.kirill5k" %% "mongo4cats-core" % "0.4.6"
 
 fork in Test := true
 (fullClasspath in Test) := (fullClasspath in Test).value ++ Seq(Attributed.blank((resourceDirectory in Test).value))
+
+scalacOptions += "-deprecation"
 
 lazy val local = (project in file("local")).settings(
   Compile / run / mainClass := Some("com.tapestry.textiles.local.LocalMain")

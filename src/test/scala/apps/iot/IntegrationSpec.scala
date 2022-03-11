@@ -11,13 +11,13 @@ import com.tapestry.apps.iot.service._
 
 class IntegrationSpec extends AnyFlatSpec with should.Matchers  {
   "A Local stack" should "start with all services" in {
-    System.out.println(s"classpath: ${System.getProperty("java.css.path")}")
     val local = new LocalCarpet("com.tapestry.apps.iot.service")
     local.run()
     val context = local.context
     context.tell(classOf[HelloService].getCanonicalName, ())
 
     context.ask(classOf[SessionRedis].getCanonicalName, ()) should be (Right("PONG"))
+    context.ask(classOf[DataMongoDb].getCanonicalName, ()) should be (Right("testdb"))
 
     local.stop()
   }
