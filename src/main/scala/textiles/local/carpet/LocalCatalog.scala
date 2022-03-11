@@ -1,11 +1,11 @@
 package com.tapestry
-package textiles.sample
+package textiles.local.carpet
 
 import framework.primitives.{Address, ServiceRef}
 
 import scala.collection.mutable._
 
-class MemoryCatalog {
+class LocalCatalog {
   val registry: HashMap[Address, ServiceRef[_, _, _, _, _]] = HashMap.empty
 
   def find(address: Address): Option[ServiceRef[_, _, _, _, _]] = {

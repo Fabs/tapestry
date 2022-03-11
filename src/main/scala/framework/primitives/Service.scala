@@ -9,6 +9,6 @@ package framework.primitives
  */
 trait Service[Input, Output, Config] {
   def execute(in: Input)(implicit context: ExecutionContext) : Output
-  def configure()(implicit builder: BuilderContext): ServiceCompute[Input, Output, Config]
+  def configure()(implicit builder: BuilderContext): Construct[Input, Output, Config]
 }
 // Should need an Input, Output, Runtime and Props

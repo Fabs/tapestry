@@ -1,9 +1,9 @@
 package com.tapestry
-package textiles.sample
+package textiles.local.carpet
 
 import framework.primitives.{Address, ExecutionContext, Service}
 
-class SampleContext(catalog: MemoryCatalog) extends ExecutionContext {
+class LocalContext(catalog: LocalCatalog) extends ExecutionContext {
   implicit val context: ExecutionContext = this
 
   override def tell[I](address: String, input: I): Unit = {

@@ -1,16 +1,11 @@
 package com.tapestry
 package textiles.local
 
-import textiles.sample.SampleCarpet
-
-import com.tapestry.framework.utils.ServiceLoader
-import org.reflections.Reflections
-import org.reflections.scanners.SubTypesScanner
+import textiles.local.carpet.LocalCarpet
 
 object LocalMain {
   def main(args: Array[String]): Unit = {
-    val services = ServiceLoader.servicesFromCatalog("com.tapestry")
-    println(services.length)
-    services.foreach(println _)
+    new LocalCarpet("com.tapestry.apps.iot.service").run()
+    println("Hello there! I'm just going to wait for an hour and exit.")
   }
 }

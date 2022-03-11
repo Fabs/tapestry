@@ -14,6 +14,11 @@ libraryDependencies += "org.json4s" %% "json4s-native" % "4.0.4"
 libraryDependencies += "org.json4s" %% "json4s-jackson" % "4.0.4"
 
 //Tapestry local
+libraryDependencies += "com.fasterxml.jackson.core" % "jackson-core" % "2.13.2"
+libraryDependencies += "com.fasterxml.jackson.core" % "jackson-annotations" % "2.13.2"
+libraryDependencies += "com.fasterxml.jackson.core" % "jackson-databind" % "2.13.2"
+libraryDependencies += "com.fasterxml.jackson.dataformat" % "jackson-dataformat-yaml" % "2.13.2"
+libraryDependencies += "com.fasterxml.jackson.module" %% "jackson-module-scala" % "2.13.2"
 
 //Search
 libraryDependencies += "com.nrinaudo" % "kantan.csv_2.13" % "0.6.2"
@@ -29,12 +34,14 @@ libraryDependencies += "org.deeplearning4j" % "deeplearning4j-nlp" % "1.0.0-M1"
 libraryDependencies += "org.nd4j" % "nd4j-native" % "1.0.0-M1"
 libraryDependencies += "org.nd4j" % "nd4j-native-platform" % "1.0.0-M1"
 
-//IoT
+//Iot is T
+libraryDependencies += "org.scalactic" %% "scalactic" % "3.2.11"
+libraryDependencies += "org.scalatest" %% "scalatest" % "3.2.11" % "test"
+libraryDependencies += "dev.profunktor" %% "redis4cats-effects" % "1.1.1"
+libraryDependencies += "dev.profunktor" %% "redis4cats-streams" % "1.1.1"
 
-
-lazy val sample = (project in file("sample")).settings(
-  Compile / run / mainClass := Some("com.tapestry.textiles.sample.SampleMain")
-)
+fork in Test := true
+(fullClasspath in Test) := (fullClasspath in Test).value ++ Seq(Attributed.blank((resourceDirectory in Test).value))
 
 lazy val local = (project in file("local")).settings(
   Compile / run / mainClass := Some("com.tapestry.textiles.local.LocalMain")

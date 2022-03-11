@@ -12,7 +12,8 @@ import org.json4s.jackson.JsonMethods._
  * @tparam O Service Output
  * @tparam P Service Props
  */
-trait ServiceCompute[I, O, P] {
+trait Construct[I, O, P] {
   def address(): Address
   def props(): P
+  def build(implicit builder: BuilderContext): Unit
 }
