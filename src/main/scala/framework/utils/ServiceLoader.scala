@@ -12,7 +12,7 @@ object ServiceLoader {
   //catalog(0).getClass.getMethods.map(x => x.getTypeParameters()).map(x => getTypeTag(x)).foreach(println(_))
   //https://docs.scala-lang.org/overviews/reflection/overview.html
 
-  def servicesFromCatalog(catalogNamespace: String): List[Service[_, _, _]] = {
+  def servicesFromPackage(catalogNamespace: String): List[Service[_, _, _]] = {
     val loader = Thread.currentThread.getContextClassLoader
     try {
       val classpath = ClassPath.from(loader) // scans the class path used by classloader

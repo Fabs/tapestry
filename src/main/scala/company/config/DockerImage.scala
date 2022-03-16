@@ -1,8 +1,7 @@
 package com.tapestry
-package apps.iot.runtime
+package company.config
 
 import com.fasterxml.jackson.annotation.{JsonIgnoreProperties, JsonProperty}
-
 
 @JsonIgnoreProperties(Array("name", "tag"))
 case class DockerImage(

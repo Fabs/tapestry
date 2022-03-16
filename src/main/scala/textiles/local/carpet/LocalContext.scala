@@ -12,7 +12,7 @@ class LocalContext(catalog: LocalCatalog) extends ExecutionContext {
 
   override def ask[I, O](address: String, input: I): Either[Error, O] = {
     val result = catalog.find(Address(address))
-      .map(ref => ref.service.asInstanceOf[Service[I, O, _]].execute(input))
+      .map(ref => ref.asInstanceOf[Service[I, O, _]].execute(input))
 
     Either.cond(result.isDefined, result.get, new Error(s"Could not find $address"))
   }

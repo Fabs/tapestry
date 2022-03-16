@@ -5,13 +5,14 @@ import collection.mutable.Stack
 import org.scalatest._
 import flatspec._
 import matchers._
-
 import textiles.local.carpet.LocalCarpet
+
+import com.tapestry.apps.iot.config.IotStack
 import com.tapestry.apps.iot.service._
 
 class IntegrationSpec extends AnyFlatSpec with should.Matchers  {
   "A Local stack" should "start with all services" in {
-    val local = new LocalCarpet("com.tapestry.apps.iot.service")
+    val local = new LocalCarpet(IotStack.services)
     local.run()
     val context = local.context
     context.tell(classOf[HelloService].getCanonicalName, ())

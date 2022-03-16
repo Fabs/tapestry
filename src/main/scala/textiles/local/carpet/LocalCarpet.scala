@@ -1,36 +1,34 @@
 package com.tapestry
 package textiles.local.carpet
 
-import apps.iot.runtime.DockerImage
-import company.Container
+import apps.iot.service.HelloService
 import company.Workplace.WORKPLACE
-import framework.primitives.{Carpet, Construct}
-import framework.utils.ServiceLoader
+import company.config.DockerImage
+import framework.primitives.{Carpet, Service}
 
 import com.fasterxml.jackson.annotation.JsonInclude.Include
+import com.fasterxml.jackson.databind.{ObjectMapper, PropertyNamingStrategy}
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory
 import com.fasterxml.jackson.dataformat.yaml.YAMLGenerator.Feature
-import com.fasterxml.jackson.databind.{ObjectMapper, PropertyNamingStrategy}
-import com.tapestry.apps.iot.service.HelloService
 import com.fasterxml.jackson.module.scala.DefaultScalaModule
+import com.tapestry.company.Container
 
 import java.io.File
 import scala.collection.mutable
-import sys.process._
 
-class LocalCarpet(catalogPackage: String) extends Carpet {
+class LocalCarpet(services: List[Service[_, _, _]]) extends Carpet {
   implicit val builderContext: LocalBuildContext = new LocalBuildContext
-  val services = ServiceLoader.servicesFromCatalog(catalogPackage)
+
   services.foreach(s => {
-    s.configure().build(builderContext)
+    s.build()
   })
 
   val dockerServices = mutable.Map.empty[String, DockerImage]
   builderContext.catalog.registry.foreach(kv => {
     val service = kv._2
-    service.serviceType match {
+    service.kind() match {
       case Container => {
-        val props = service.runtime.asInstanceOf[Construct[_, _, DockerImage]].props()
+        val props: DockerImage = service.props().asInstanceOf[DockerImage]
         dockerServices.put(props.containerName, props)
       }
       case _ =>
@@ -44,7 +42,7 @@ class LocalCarpet(catalogPackage: String) extends Carpet {
   mapper.setPropertyNamingStrategy(PropertyNamingStrategy.SNAKE_CASE)
   mapper.setSerializationInclusion(Include.NON_NULL)
   mapper.writeValue(new File(s"$WORKPLACE/docker-compose.yaml"), dockerCompose)
-  sys.process.Process(Seq("docker-compose","up", "-d"), new java.io.File(WORKPLACE)).!!
+  sys.process.Process(Seq("docker-compose", "up", "-d"), new java.io.File(WORKPLACE)).!!
 
   implicit val context: LocalContext = new LocalContext(builderContext.catalog)
 
@@ -53,6 +51,6 @@ class LocalCarpet(catalogPackage: String) extends Carpet {
   }
 
   def stop(): Unit = {
-    sys.process.Process(Seq("docker-compose","down"), new java.io.File(WORKPLACE)).!!
+    sys.process.Process(Seq("docker-compose", "down"), new java.io.File(WORKPLACE)).!!
   }
 }
