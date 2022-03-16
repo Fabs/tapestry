@@ -1,13 +1,13 @@
 package com.tapestry
-package apps.iot.service
+package apps.iot.service.dependencies
 
+import company.components.ContainerServiceClient
 import company.config.DockerImage
 import company.{Container, ServiceKind}
-import framework.primitives.{ExecutionContext, Service}
+import framework.primitives.ExecutionContext
 
 import cats.effect.IO
 import cats.effect.unsafe.implicits.global
-import com.tapestry.company.components.ContainerServiceClient
 import mongo4cats.client.MongoClient
 
 class DataMongoDb extends ContainerServiceClient[Unit, String] {

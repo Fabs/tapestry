@@ -1,5 +1,5 @@
 package com.tapestry
-package apps.iot.service
+package apps.iot.service.dependencies
 
 import company.components.ContainerServiceClient
 import company.config.DockerImage

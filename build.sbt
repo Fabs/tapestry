@@ -6,6 +6,9 @@ scalaVersion := "2.13.8"
 
 idePackagePrefix := Some("com.tapestry")
 
+resolvers +=
+  "Sonatype OSS Snapshots" at "https://oss.sonatype.org/content/repositories/snapshots"
+
 // Test
 libraryDependencies += "org.scalactic" %% "scalactic" % "3.2.11"
 libraryDependencies += "org.scalatest" %% "scalatest" % "3.2.11" % "test"
@@ -26,6 +29,21 @@ libraryDependencies += "com.fasterxml.jackson.core" % "jackson-annotations" % "2
 libraryDependencies += "com.fasterxml.jackson.core" % "jackson-databind" % "2.13.2"
 libraryDependencies += "com.fasterxml.jackson.dataformat" % "jackson-dataformat-yaml" % "2.13.2"
 libraryDependencies += "com.fasterxml.jackson.module" %% "jackson-module-scala" % "2.13.2"
+
+//Tapestry CLI
+libraryDependencies += "info.picocli" % "picocli" % "4.6.3"
+
+//Tapestry vertx
+libraryDependencies += "io.vertx" % "vertx-core" % "4.2.5"
+libraryDependencies += "io.vertx" % "vertx-stack-depchain" % "4.2.5"
+libraryDependencies += "io.vertx" % "vertx-web" % "4.2.5"
+libraryDependencies += "io.vertx" % "vertx-web-client" % "4.2.5"
+libraryDependencies += "io.vertx" % "vertx-service-discovery" % "4.2.5"
+libraryDependencies += "io.vertx" % "vertx-mqtt" % "4.2.5"
+libraryDependencies += "io.vertx" % "vertx-redis-client" % "4.2.5"
+libraryDependencies += "io.vertx" % "vertx-junit5" % "4.2.5"
+//libraryDependencies += "org.junit.jupiter" % "junit-jupiter" % "4.2.5"
+
 
 //Search
 libraryDependencies += "com.nrinaudo" % "kantan.csv_2.13" % "0.6.2"
@@ -51,6 +69,9 @@ fork in Test := true
 
 scalacOptions += "-deprecation"
 
-lazy val local = (project in file("local")).settings(
-  Compile / run / mainClass := Some("com.tapestry.textiles.local.LocalMain")
-)
+//lazy val local = (project in file("local")).settings(
+//  Compile / run / mainClass := Some("com.tapestry.textiles.local.LocalMain")
+//)
+
+fork in run := true
+mainClass in (Compile, run) := Some("com.tapestry.textiles.local.LocalMain")

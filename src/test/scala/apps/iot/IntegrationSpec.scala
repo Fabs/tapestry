@@ -9,6 +9,7 @@ import textiles.local.carpet.LocalCarpet
 
 import com.tapestry.apps.iot.config.IotStack
 import com.tapestry.apps.iot.service._
+import com.tapestry.apps.iot.service.dependencies.{DataMongoDb, SessionRedis}
 
 class IntegrationSpec extends AnyFlatSpec with should.Matchers  {
   "A Local stack" should "start with all services" in {

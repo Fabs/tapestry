@@ -1,8 +1,9 @@
 package com.tapestry
 package framework.utils
 
+import framework.primitives.Service
+
 import com.google.common.reflect.ClassPath
-import com.tapestry.framework.primitives.Service
 
 import java.io.IOException
 import scala.jdk.CollectionConverters._
@@ -16,10 +17,12 @@ object ServiceLoader {
     val loader = Thread.currentThread.getContextClassLoader
     try {
       val classpath = ClassPath.from(loader) // scans the class path used by classloader
-      val services = classpath.getTopLevelClasses(catalogNamespace).asScala
+      val services = classpath.getTopLevelClassesRecursive(catalogNamespace).asScala
         .map(service => Class.forName(service.getName))
 
-      return services.map(s => s.newInstance().asInstanceOf[Service[_, _, _]]).toList
+      return services
+        .filter(canCastToService(_))
+        .map(s => s.newInstance().asInstanceOf[Service[_, _, _]]).toList
     } catch {
       case e: IOException => {
         e.printStackTrace()
@@ -28,4 +31,18 @@ object ServiceLoader {
     List.empty
   }
 
+  def canCastToService(value: Class[_]): Boolean = {
+    try {
+      println(value.getName)
+      value.newInstance().asInstanceOf[Service[_, _, _]]
+      println(s"WORKS ${value.getName}")
+    } catch {
+      case e: Exception => {
+        println(e.getMessage)
+        return false
+      }
+    }
+
+    true
+  }
 }
